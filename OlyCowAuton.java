@@ -1,65 +1,66 @@
-package org.firstinspires.ftc.teamcode;
+//Imports
+    package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.CRServo;
-    
+    import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+    import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+    import com.qualcomm.robotcore.hardware.Servo;
+    import org.firstinspires.ftc.robotcore.external.JavaUtil;
+    import com.qualcomm.robotcore.hardware.ColorSensor;
+    import com.qualcomm.hardware.bosch.BNO055IMU;
+    import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+    import com.qualcomm.robotcore.hardware.DcMotor;
+    import com.qualcomm.robotcore.hardware.DcMotorSimple;
+    import com.qualcomm.robotcore.util.ElapsedTime;
+    import com.qualcomm.robotcore.util.Range;
+    import com.qualcomm.robotcore.hardware.CRServo;
+        
 @Autonomous
 public class OlyCowAuton extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Starting telemetry
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
     
         // Declaration
-        ElapsedTime runtime = new ElapsedTime();
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        ColorSensor colorSensor = hardwareMap.colorSensor.get("colorSensor");
-        
-        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+            ElapsedTime runtime = new ElapsedTime();
+            DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
+            DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
+            DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
+            DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+            ColorSensor colorSensor = hardwareMap.colorSensor.get("colorSensor");
+        //Motor Confguration
+            motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+            motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
         
         runtime.reset();
         colorSensor.enableLed(true);
         
-        //auton start
+        //Movement towards cone before reading color values
         
-        forwards(0.5,1500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+            forwards(0.5,1500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
         
-        //COLOR SENSOR            
-        if (colorSensor.red() > colorSensor.green() && colorSensor.red() > colorSensor.blue()) {
+        //COLOR SENSOR
+            //Position 1 - Left side
+            if (colorSensor.red() > colorSensor.green() && colorSensor.red() > colorSensor.blue()) {
+
+                forwards(0.5,2500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+                left(0.5,3000,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+                
+            }
             
-            backwards(0.5,1300,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-            
-            left(0.5,3000,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-            
-            forwards(0.5,2500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-        }
-        
-        else if (colorSensor.green() > colorSensor.red() && colorSensor.green() > colorSensor.blue()) {
-            backwards(0.5,1300,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-        }
-        
-        else if (colorSensor.blue() > colorSensor.green() && colorSensor.blue() > colorSensor.blue()) {
-            backwards(0.5,1300,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-            right(0.5,3000,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-            forwards(0.5,2500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
-        }
+            //Position 2 - Forwards
+            else if (colorSensor.green() > colorSensor.red() && colorSensor.green() > colorSensor.blue()) {
+                forwards(0.5,2500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+            }
+            //Position 3 - Right Side
+            else if (colorSensor.blue() > colorSensor.green() && colorSensor.blue() > colorSensor.blue()) {
+                backwards(0.5,1300,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+                right(0.5,3000,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+                forwards(0.5,2500,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
+            }
         
     }
     
