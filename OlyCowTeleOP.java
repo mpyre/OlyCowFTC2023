@@ -44,9 +44,9 @@ public class OlyCowTeleOP extends LinearOpMode {
         waitForStart();
 
         // RESET STUFF
-        runtime.reset();
-        colorSensor.enableLed(true);
-        motorLinearSlide.setTargetPosition(500);
+            runtime.reset();
+            colorSensor.enableLed(true);
+            motorLinearSlide.setTargetPosition(500);
 
         while (opModeIsActive()) {
             double r = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
@@ -62,55 +62,48 @@ public class OlyCowTeleOP extends LinearOpMode {
             motorBackLeft.setPower(v3);
             motorBackRight.setPower(v4);
 
-            // Claw (Adjust Positions)
+            // Claw Control
 
-            if(gamepad2.a)
-            {
-                servoClaw.setPosition(0.0);
-            }
-            else if (gamepad2.b)
-            {
-                servoClaw.setPosition(1.0);
-            }
+                if(gamepad2.a)
+                {
+                    servoClaw.setPosition(0.0);
+                }
+                else if (gamepad2.b)
+                {
+                    servoClaw.setPosition(1.0);
+                }
             
-            //encoder reset
-            if (gamepad2.x) {
-                motorLinearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motorLinearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
+            //Encoder Reset
+                if (gamepad2.x) {
+                    motorLinearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    motorLinearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
             
-            
-            
-            //Comment this out if the linear slide stops working suddenly
-            if (motorLinearSlide.getTargetPosition() == motorLinearSlide.getCurrentPosition()) {
-                motorLinearSlide.setPower(0);
-                motorLinearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-            
-            if (motorLinearSlide.getCurrentPosition() < 0) {
-                motorLinearSlide.setPower(0.1);
-            }
-            else if (motorLinearSlide.getCurrentPosition() > 2200){
-                motorLinearSlide.setPower(-0.1);
-            }
-            else {
-                motorLinearSlide.setPower(-gamepad2.left_stick_y);
-            }
-            
-            if (motorLinearSlide.getPower() == 0.0) {
-                motorLinearSlide.setPower(0.05);
-            }
+            //Linear Slide Controls 
+                if (motorLinearSlide.getCurrentPosition() < 0) {
+                    motorLinearSlide.setPower(0.1);
+                }
+                else if (motorLinearSlide.getCurrentPosition() > 2200){
+                    motorLinearSlide.setPower(-0.1);
+                }
+                else {
+                    motorLinearSlide.setPower(-gamepad2.left_stick_y);
+                }
+                
+                if (motorLinearSlide.getPower() == 0.0) {
+                    motorLinearSlide.setPower(0.05);
+                }
             
             // Updating new info for telemetry and sending it to driver station
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            
-            telemetry.addData("Color Sensor", "Red: " + colorSensor.red());
-            telemetry.addData("Color Sensor", "Green: " + colorSensor.green());
-            telemetry.addData("Color Sensor", "Blue: " + colorSensor.blue());
-            
-            telemetry.addData("Linear Slide Encoder", "Count " + motorLinearSlide.getCurrentPosition());
-            
-            telemetry.update();
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+                
+                telemetry.addData("Color Sensor", "Red: " + colorSensor.red());
+                telemetry.addData("Color Sensor", "Green: " + colorSensor.green());
+                telemetry.addData("Color Sensor", "Blue: " + colorSensor.blue());
+                
+                telemetry.addData("Linear Slide Encoder", "Count " + motorLinearSlide.getCurrentPosition());
+                
+                telemetry.update();
         }
     }
 }
