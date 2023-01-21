@@ -12,7 +12,6 @@
     import com.qualcomm.robotcore.util.ElapsedTime;
     import com.qualcomm.robotcore.util.Range;
     import com.qualcomm.robotcore.hardware.CRServo;
-
 @TeleOp
 public class OlyCowTeleOP extends LinearOpMode {
     @Override
@@ -20,7 +19,6 @@ public class OlyCowTeleOP extends LinearOpMode {
         // Starting telemetry
             telemetry.addData("Status", "Initialized");
             telemetry.update();
-
         // Declarations
             ElapsedTime runtime = new ElapsedTime();
             DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
@@ -40,9 +38,7 @@ public class OlyCowTeleOP extends LinearOpMode {
             motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             motorLinearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-
         waitForStart();
-
         // RESET STUFF
             runtime.reset();
             colorSensor.enableLed(true);
@@ -63,7 +59,6 @@ public class OlyCowTeleOP extends LinearOpMode {
             motorBackRight.setPower(v4);
 
             // Claw Control
-
                 if(gamepad2.a)
                 {
                     servoClaw.setPosition(0.0);

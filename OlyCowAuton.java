@@ -49,7 +49,6 @@ public class OlyCowAuton extends LinearOpMode {
                 left(0.5,3000,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
                 
             }
-            
             //Position 2 - Forwards
             else if (colorSensor.green() > colorSensor.red() && colorSensor.green() > colorSensor.blue()) {
                 forwards(0.5,3750,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
@@ -59,9 +58,7 @@ public class OlyCowAuton extends LinearOpMode {
                 forwards(0.5,1250,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
                 right(0.5,3000,motorFrontRight,motorFrontLeft,motorBackRight,motorBackLeft);
             }
-        
     }
-    
     public void forwards(double power,int time,DcMotor motorFrontRight,DcMotor motorFrontLeft,DcMotor motorBackRight,DcMotor motorBackLeft) {
         motorFrontRight.setPower(-power);
         motorFrontLeft.setPower(-power);
